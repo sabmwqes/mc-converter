@@ -1,10 +1,12 @@
 # mc-converter
-Chart/map converter for .mc file.
-
-pyscriptという面白そうなものが公開されたので、興味本位で作成しました。
-これを公開するにあたってライセンスの種類やリポジトリの命名規則などいろいろ調べました。
-.mcの譜面ファイルはJSONテキストで管理されており、pythonなどでとても簡単に操作が可能です。
-
-
-**2022/05/28**
-4k→6kの変換を実装しました。端の2レーンをそのまま横に増やす一般的な手法です。
+## overview
+This is a chart/map converter for .mc file.  
+この4k譜面の6k版がプレイしたい、でも誰も作らないし自分で作るのもめんどくさい、といった方向けです。
+## Requirement
+Web browser such as Chrome.
+## ote
+The number in the mc file name is probably UNIX time (epoch seconds).
+## Author
+-> user/203125
+## License
+"mc-converter" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
