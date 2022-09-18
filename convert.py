@@ -8,7 +8,7 @@ def split(data: dict):
     
     if (data["meta"]["mode_ext"]["column"] == 4):
         data["meta"]["mode_ext"]["column"] = 8 #convert to 8k
-    else: 
+    else:
         print(f'{data["meta"]["version"]}' " <- this is not 4k")
         return 1
     data["meta"]["version"] =  "[SPLIT]" + data["meta"]["version"] #譜面名変更
@@ -17,7 +17,7 @@ def split(data: dict):
     for i in range(numOfNotes): #全てのノーツにおいて、
         data['note'][i]['column'] *= 2 #レーン番号倍
         dupeNote = data['note'][i].copy() #NOT参照渡し！！！！
-        dupeNote['column'] += 1 
+        dupeNote['column'] += 1
         data['note'].append(dupeNote) #ノーツを倍　逐次的順番は考慮しなくてもよい
     
     return 0
@@ -28,7 +28,7 @@ def convert4kto6k(data: dict):
     
     if (data["meta"]["mode_ext"]["column"] == 4):
         data["meta"]["mode_ext"]["column"] = 6 #convert to 6k
-    else: 
+    else:
         print(f'{data["meta"]["version"]}' " <- this is not 4k")
         return 1
     data["meta"]["version"] =  "[6kCV]" + data["meta"]["version"] #譜面名変更
@@ -50,7 +50,7 @@ def convert4kto6k(data: dict):
     
     return 0
         
-def writeChart(data: dict, folderpath: str):
+def writeChart(data: dict, folderpath: str): #辞書とパスを受け取り，ファイル出力
     newChart = str(int(time.time())) + ".mc" #恐らく、譜面ファイル名に使われている数字はUNIX時間
     
     print(f"start writing as {newChart}")
@@ -78,7 +78,7 @@ def main():
         
 
 if __name__ == "__main__":
-    t = time.time()
+    start = time.perf_counter()
     main()
-    print(f"--------------------------------------")
-    print(f"runTime: {(time.time() - t) * 1000:.2f} ms")
+    end = time.perf_counter()
+    print(f"\n{(end - start):.2f}s")
