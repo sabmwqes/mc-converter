@@ -1,7 +1,10 @@
 # mc-converter
 ## overview
-This is a chart/map converter for .mc file.  
-この4k譜面の6k版がプレイしたい、でも誰も作らないし自分で作るのもめんどくさい、といった方向けです。
+<span style="color: red;">未完成です</span>
+
+This is a chart/map converter for .mc file.
+
+mcファイルをいろいろできるツールです
 ## Requirement
 Web browser such as Chrome.
 ## Note
