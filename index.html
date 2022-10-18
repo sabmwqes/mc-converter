@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McConverter</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-    <p>Hoge</p>
-</body>
-</html>
-<!-- 
+<!--
 ~_~~::::<::~::::;;;;<(<>><wWWQWHHHWn+;>><(-+???<<>?+<;::::~~::~~~:~~
 .._ _._`_~~~~:___<<;;;>><zXHmmgHqmHWVn<><<+?>>>?>?<><!<~~`` _~_`__~(
 `. .._ _:~~~~~_..___:<_<Jv00VUUVTUUWqk<~_<(>>>>><______ ._`  ~~_  (>
@@ -46,3 +33,70 @@ Never gonna say goodbye
 Never gonna tell a lie and hurt you
 https://www.youtube.com/watch?v=dQw4w9WgXcQ
 -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McConverter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>mc converter ver.1.0</h1>
+        <h6> made by SABM4096</h6>
+    </div>
+    <div class="main">
+        <hr>
+        <div class="option">
+            <h3>Options</h3>
+            <input type="radio" name="op1" value="4kto6k" checked>4kto6k
+            <input type="radio" name="op1" value="mirror">mirror
+        </div>
+        <div class="input">
+            <h3>Input</h3>
+            <div class="alert" id="alert"></div>
+            <input type="text" placeholder="json text (.mc)" id="textInput">
+            <button class="btn" onclick="convert()" style="margin-top: 10px;">Convert!</button>
+            <script>
+                function convert() {
+                    textInput = document.getElementById("textInput")
+                    textOutput = document.getElementById("textOutput");
+                    filename = document.getElementById("filename");
+                    alertDiv = document.getElementById("alert");
+                    alertDiv.innerHTML = ""
+
+                    var option = document.querySelector('input[name=op1]:checked').value;
+                    var inputText = textInput.value;
+                    var input = "";
+                    try {
+                        input = JSON.parse(inputText)
+                    } catch (e){
+                        alertDiv.innerHTML = "This is not a beatmap text."
+                        return;
+                    }
+
+                    textOutput.value = inputText + option;
+                    filename.innerHTML = "Recommended filename: " + Math.floor(Date.now() / 1000) + ".mc"
+                }
+            </script>
+        </div>
+        <div class="output">
+            <h3>Output</h3>
+            <div class="filename" id="filename"></div>
+            <input type="text" placeholder="" id="textOutput">
+            <!-- <div class="textOutput" id="textOutput">yee</div> -->
+            <button class="btn" onclick="copytext()" style="margin-top: 10px;">Copy text</button>
+            <script>
+                function copytext() {
+                    var text = document.getElementById("textOutput").value;
+                    navigator.clipboard.writeText(text);
+                    alert("Copied!");
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
