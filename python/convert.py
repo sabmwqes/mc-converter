@@ -51,7 +51,7 @@ def convert4kto6k(data: dict):
     return 0
         
 def writeChart(data: dict, folderpath: str): #辞書とパスを受け取り，ファイル出力
-    newChart = str(int(time.time())) + ".mc" #恐らく、譜面ファイル名に使われている数字はUNIX時間
+    newChart = f"{str(int(time.time()))}.mc" #恐らく、譜面ファイル名に使われている数字はUNIX時間
     
     print(f"start writing as {newChart}")
     
@@ -61,7 +61,7 @@ def writeChart(data: dict, folderpath: str): #辞書とパスを受け取り，�
     print("Done Writing!")
 
 def main():
-    path = input("Enter file path: ")
+    path = input("Enter .mc file path: ")
     
     with open(path, "r") as fr: #譜面json読み込み
         data = json.load(fr)
