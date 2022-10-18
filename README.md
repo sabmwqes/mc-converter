@@ -1,10 +1,16 @@
 # mc-converter
-## overview
-<span style="color: red;">未完成です</span>
+## Overview
+未完成です！
 
 This is a chart/map converter for .mc file.
 
 mcファイルをいろいろできるツールです
+
+## Feature(expected)
+- mirror
+- 4kto6k
+- shift
+- customizedRandom
 ## Requirement
 Web browser such as Chrome.
 ## Note
