@@ -41,12 +41,14 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>McConverter</title>
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="header">
         <h1>mc converter ver.1.0</h1>
         <h6> made by SABM4096</h6>
+        <a href="https://github.com/sabmwqes/mc-converter" target="_blank">Instructions/説明書</a>
     </div>
     <div class="main">
         <hr>
@@ -57,43 +59,90 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
         </div>
         <div class="input">
             <h3>Input</h3>
-            <div class="alert" id="alert"></div>
-            <input type="text" placeholder="json text (.mc)" id="textInput">
-            <button class="btn" onclick="convert()" style="margin-top: 10px;">Convert!</button>
+            <textarea id="textInput" placeholder=".mcファイルのテキストをコピー＆ペーストしてください" rows="5" spellcheck="false"></textarea>
+            <div class="info", id="info", style="font-size: 0.75em;  margin: 10px">
+                <div id="title"></div>
+                <div id="version"></div>
+                <div id="notes"></div>
+            </div>
+            <div>
+                <button class="btn" onclick="convert()" style="margin-top: 10px;">Convert!</button>
+                <button class="btn" id="infoBtn" onclick="toggleInfo()" style="margin-top: 10px;">Info</button>
+                <button class="btn" onclick="clearInput()" style="margin-top: 10px;">Clear</button>
+                <span class="alert" id="alert"></span>
+            </div>
             <script>
                 function convert() {
-                    textInput = document.getElementById("textInput")
-                    textOutput = document.getElementById("textOutput");
-                    filename = document.getElementById("filename");
-                    alertDiv = document.getElementById("alert");
-                    alertDiv.innerHTML = ""
+                    $("#alert").text("");
 
                     var option = document.querySelector('input[name=op1]:checked').value;
-                    var inputText = textInput.value;
-                    var input = "";
+                    var inputText = $("#textInput").val();
+                    var inputJson;
                     try {
-                        input = JSON.parse(inputText)
+                        inputJson = JSON.parse(inputText)
                     } catch (e){
-                        alertDiv.innerHTML = "This is not a beatmap text."
+                        $("#alert").text("This is not a json text.");
+                        return;
+                    }
+                    try {
+
+                    } catch (e){
+                        $("#alert").text("This is not a beatmap text.");
                         return;
                     }
 
+
                     textOutput.value = inputText + option;
-                    filename.innerHTML = "Recommended filename: " + Math.floor(Date.now() / 1000) + ".mc"
+                    $("#filename").text("推奨ファイル名: " + Math.floor(Date.now() / 1000) + ".mc");
+                }
+                function toggleInfo(){
+                    $("#alert").text("");
+                    if ( $("#infoBtn").text() == "Hide"){
+                        $("#info").hide()
+                        $("#infoBtn").text("Info");
+                        return;
+                    } else {
+                        var inputText = $("#textInput").val();
+                        var inputJson;
+                        try {
+                            inputJson = JSON.parse(inputText)
+                        } catch (e){
+                            $("#alert").text("This is not a json text.");
+                            return;
+                        }
+                        try {
+                            $("#title").text(inputJson["meta"]["song"]["title"]);
+                            $("#version").text(inputJson["meta"]["version"]);
+                            $("#notes").text(String(inputJson["note"].length - 1) + " notes");
+                        } catch (e){
+                            $("#alert").text("This is not a beatmap text.");
+                            return;
+                        }
+                        $("#info").show()
+                        $("#infoBtn").text("Hide");
+                        return;
+                    }
+
+                }
+                function clearInput(){
+                    $("#textInput").val("");
+                    $("#alert").text("");
                 }
             </script>
         </div>
         <div class="output">
             <h3>Output</h3>
-            <div class="filename" id="filename"></div>
-            <input type="text" placeholder="" id="textOutput">
-            <!-- <div class="textOutput" id="textOutput">yee</div> -->
-            <button class="btn" onclick="copytext()" style="margin-top: 10px;">Copy text</button>
+            <textarea id="textOutput" placeholder="出力結果" rows="5" readonly spellcheck="false"></textarea>
+            <div>
+                <button class="btn" onclick="copytext()" style="margin-top: 10px;">Copy text</button>
+                <span class="copyMessage"></span>
+            </div>
+            <div class="filename" id="filename" style="font-size: 0.85em; margin: 10px 5px;"></div>
             <script>
                 function copytext() {
-                    var text = document.getElementById("textOutput").value;
+                    var text = $("#textOutput").val();
                     navigator.clipboard.writeText(text);
-                    alert("Copied!");
+                    $(".copyMessage").text("Copied!");
                 }
             </script>
         </div>

@@ -18,6 +18,8 @@ button {
     font-weight: bold;
 }
 
+
+
 button:hover {
     background: #cfcfcf;
 }
@@ -31,6 +33,21 @@ input[type='text'] {
     display: block;
     width: 80%;
     height: 2em;
+}
+
+textarea {
+    resize: none;
+    color: #101010;
+    border: 1px solid #cfcfcf;
+    border-radius: 18px;
+    background: white;
+    padding: 10px 20px;
+    display: block;
+    width: 80%;
+}
+
+::placeholder {
+    font-size: larger;
 }
 
 h1, h6{
