@@ -1,8 +1,10 @@
 # mc-converter
-## Overview
-未完成です！
 
-This is a chart/map converter for .mc file.
+>**Warning**
+>未完成です！
+## Overview
+
+This is a chart/beatmap converter for .mc file.
 
 mcファイルをいろいろできるツールです
 
@@ -14,7 +16,7 @@ mcファイルをいろいろできるツールです
 ## Requirement
 Web browser such as Chrome.
 ## Note
-The number in the mc file name is probably UNIX time (epoch seconds).
+The number in the mc file name is UNIX time (epoch seconds).
 ## Author
 -> user/203125
 ## License
