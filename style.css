@@ -60,6 +60,10 @@ textarea {
     width: 80%;
 }
 
+textarea::placeholder {
+    font-size: larger;
+}
+
 header h1, h6{
     display: inline;
 }
