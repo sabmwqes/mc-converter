@@ -1,5 +1,5 @@
 hoge = () => {
-    console.log("here!")
+    console.log("Hey, You're here!")
 }
 
 function convert() {
@@ -15,7 +15,7 @@ function convert() {
         return;
     }
     try {
-        const key = inputJson["meta"]["mode_ext"]["column"];
+        const numOfKeys = inputJson["meta"]["mode_ext"]["column"]; //キー数
         if (option == "4kto6k"){
 
         } else if (option == "keyToSlide"){
@@ -25,7 +25,33 @@ function convert() {
         } else if (option == "shift"){
 
         } else if (option == "customizedRandom"){
-
+            var patternString = $("#customPattern").val();
+            var pattern = Array(numOfKeys).fill().map(e => []); //[]で初期化
+            for (var i=0 ; i<patternString.length ; i++){
+                try {
+                    pattern[parseInt(patternString[i])].push(i);
+                } catch {}
+            }
+            // console.log(pattern);
+            var outputJson = Object.assign({}, inputJson); //オブジェクトの値渡し
+            outputJson["note"] = []; //譜面クリア
+            const notes = inputJson["note"]; //参照渡し
+            for (var i=0 ; i<notes.length ; i++ ) {
+                if ("column" in notes[i]) {
+                    var column = notes[i]["column"];
+                    for (var k of pattern[column]){
+                        var note = Object.assign({}, notes[i]);
+                        note["column"] = k;
+                        outputJson["note"].push(note);
+                    }
+                } else {
+                    var note = Object.assign({}, notes[i]);
+                    outputJson["note"].push(note);
+                }
+            }
+            outputJson["meta"]["mode_ext"]["column"] = patternString.length; //キー数設定更新
+            outputJson["meta"]["version"] = "[CV: " + patternString + "]" + outputJson["meta"]["version"]; //差分名更新
+            $("#textOutput").val(JSON.stringify(outputJson));
         } else {
             $("#alert").text("Something is wrong, I can feel it.");
         }
@@ -33,9 +59,6 @@ function convert() {
         $("#alert").text("This is not a beatmap text.");
         return;
     }
-
-
-    textOutput.value = inputText + option;
     $("#filename").text("推奨ファイル名: " + Math.floor(Date.now() / 1000) + ".mc");
 }
 function toggleInfo(){
