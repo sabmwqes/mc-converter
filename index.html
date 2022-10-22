@@ -44,18 +44,27 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
     <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="header">
-        <h1>mc converter ver.1.0</h1>
-        <h6> made by SABM4096</h6>
-        <a href="https://github.com/sabmwqes/mc-converter" target="_blank">Instructions/説明書</a>
-    </div>
+<body style="margin: 0">
+    <header style="width:100%;" >
+        <div class="header">
+            <div>
+                <h1>mc converter ver.1.0</h1>
+                <h6> made by SABM4096</h6>
+            </div>
+            <a href="https://github.com/sabmwqes/mc-converter" target="_blank">Instructions/説明書</a>
+        </div>
+    </header>
     <div class="main">
-        <hr>
         <div class="option">
             <h3>Options</h3>
-            <input type="radio" name="op1" value="4kto6k" checked>4kto6k
-            <input type="radio" name="op1" value="mirror">mirror
+            <!-- <input type="radio" name="op1" value="4kto6k">4kto6k
+            <input type="radio" name="op1" value="keyToSlide">keyToSlide
+            <input type="radio" name="op1" value="removeSOFLAN">removeSOFLAN -->
+            <div class="customizedRandom">
+                <input type="radio" name="op1" value="customizedRandom" checked>customizedRandom
+                <input type="text" id="customPattern" placeholder="例: 001233" value="001233" style="margin: 0px 5px">
+                <span class="patternAlert"></span>
+            </div>
         </div>
         <div class="input">
             <h3>Input</h3>
@@ -85,7 +94,20 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
                         return;
                     }
                     try {
+                        const key = inputJson["meta"]["mode_ext"]["column"];
+                        if (option == "4kto6k"){
 
+                        } else if (option == "keyToSlide"){
+
+                        } else if (option == "removeSOFLAN"){
+
+                        } else if (option == "shift"){
+
+                        } else if (option == "customizedRandom"){
+
+                        } else {
+                            $("#alert").text("Something is wrong, I can feel it.");
+                        }
                     } catch (e){
                         $("#alert").text("This is not a beatmap text.");
                         return;
@@ -111,9 +133,9 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
                             return;
                         }
                         try {
-                            $("#title").text(inputJson["meta"]["song"]["title"]);
-                            $("#version").text(inputJson["meta"]["version"]);
-                            $("#notes").text(String(inputJson["note"].length - 1) + " notes");
+                            $("#title").text("Song: " + inputJson["meta"]["song"]["title"]);
+                            $("#version").text("Version: " + inputJson["meta"]["version"]);
+                            $("#notes").text("(" + inputJson["meta"]["mode_ext"]["column"] + "keys, " + String(inputJson["note"].length - 1) + "notes)"); //複数の音源を設定している場合誤差が生じるが，稀有なので簡略化
                         } catch (e){
                             $("#alert").text("This is not a beatmap text.");
                             return;
@@ -132,7 +154,7 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
         </div>
         <div class="output">
             <h3>Output</h3>
-            <textarea id="textOutput" placeholder="出力結果" rows="5" readonly spellcheck="false"></textarea>
+            <textarea id="textOutput" placeholder="出力結果がここに表示されます" rows="5" readonly spellcheck="false"></textarea>
             <div>
                 <button class="btn" onclick="copytext()" style="margin-top: 10px;">Copy text</button>
                 <span class="copyMessage"></span>
