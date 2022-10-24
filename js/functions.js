@@ -1,7 +1,3 @@
-hoge = () => {
-    console.log("Hey, You're here!")
-}
-
 function convert() {
     $("#alert").text("");
 
@@ -11,7 +7,7 @@ function convert() {
     try {
         inputJson = JSON.parse(inputText)
     } catch (e){
-        $("#alert").text("This is not a json text.");
+        $("#alert").text("This is not a beatmap text.");
         return;
     }
     try {
@@ -50,7 +46,7 @@ function convert() {
                 }
             }
             outputJson["meta"]["mode_ext"]["column"] = patternString.length; //キー数設定更新
-            outputJson["meta"]["version"] = "[CV: " + patternString + "]" + outputJson["meta"]["version"]; //差分名更新
+            outputJson["meta"]["version"] = "[CR: " + patternString + "]" + outputJson["meta"]["version"]; //差分名更新
             $("#textOutput").val(JSON.stringify(outputJson));
         } else {
             $("#alert").text("Something is wrong, I can feel it.");
@@ -73,7 +69,7 @@ function toggleInfo(){
         try {
             inputJson = JSON.parse(inputText)
         } catch (e){
-            $("#alert").text("This is not a json text.");
+            $("#alert").text("This is not a beatmap text.");
             return;
         }
         try {
