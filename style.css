@@ -1,6 +1,7 @@
 html {
     font-family: sans-serif;
 }
+
 header{
     margin: 0 0 0 0;
     width: 100%;
@@ -12,12 +13,21 @@ header a {
     color: #80ffff;
 }
 
-.main {
+footer {
+    margin: 0 0 0 0;
+    width: 100%;
+    color: #dfffff;
+    background-color: #000040;
+    padding: 18px;
+    text-align: center;
+}
+
+main {
     max-width: 70ch;
     padding: 1em 1em 1em 3em;
     margin: auto;
     line-height: 1.75;
-    font-size: 1.25em
+    font-size: 1.25em;
 }
 
 
