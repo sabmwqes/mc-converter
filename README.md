@@ -1,13 +1,13 @@
 # mc-converter
 https://sabmwqes.github.io/mc-converter/
 >**Warning**
->制作中です！現在は「customizedRandom」のみ実装されています
+>機能追加中です！現在は「customizedRandom」と「keyToSlide」のみ実装されています（v1.1現在）
 ## Overview / 概要
 
 This is a chart/beatmap converter for .mc file.
 
-mcファイルをいろいろできる、webブラウザ上で動くツールです。
-4keyを6keyに変換したり、好きな乱配置にしたりできます。（v1.0現在）
+mcファイルをいろいろ変換できる、webブラウザ上で動くツールです。
+4keyを6keyに変換したり、Keyモード譜面をSlideモード譜面に変換したりできます。
 
 ## Usage / 使い方
 1. アプリ内でコンバート（変換）したい譜面がある曲を選択し、左上の鉛筆アイコンから「譜面を共有」を押し、mczファイルをどこかに保存します。
@@ -31,7 +31,7 @@ mcファイルをいろいろできる、webブラウザ上で動くツールで
 >
 > 例：4keyの譜面をinputに入れるとき、"0123"が正規、"3210"のときミラーになります。　また、4kから6kへの変換が"001233"となっています.
 > 
-> 注：3key~10keyを超える範囲ではゲームが対応していません
+> 注：3key~10keyを超える範囲はゲームが対応していませんが、**keyToSlideでSlide譜面に変換することによって制限を突破できます。**
 
 
 ## Requirement / 必要なもの
