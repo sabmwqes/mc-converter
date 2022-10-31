@@ -55,17 +55,14 @@ function keyToSlide(inputJson){
                 endbeat[1] += endbeat[0] * endbeat[2];
                 startbeat[1] *= endbeat[2]; //通分
                 endbeat[1] *= startbeat[2];
-                relativeEndbeat[0] = 0;
                 relativeEndbeat[1] = endbeat[1] - startbeat[1];
                 relativeEndbeat[2] = startbeat[2] * endbeat[2];
-                while (relativeEndbeat[1] >= relativeEndbeat[2]){
-                    relativeEndbeat[0] += 1;
-                    relativeEndbeat[1] -= relativeEndbeat[2]; //帯分数に戻す
-                }
+                relativeEndbeat[0] = Math.floor(relativeEndbeat[1] / relativeEndbeat[2]); //帯分数に戻す
+                relativeEndbeat[1] = relativeEndbeat[1] % relativeEndbeat[2];
                 var reduct = gcd(relativeEndbeat[1], relativeEndbeat[2]); //約分
                 relativeEndbeat[1] /= reduct;
                 relativeEndbeat[2] /= reduct;
-
+                
                 note["seg"] = [{"beat": relativeEndbeat, "x": 0}]; // 相対表記
                 //console.log(note["beat"] + " " + note["seg"][0]["beat"]);
             }
