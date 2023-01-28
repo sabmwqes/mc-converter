@@ -24,7 +24,7 @@ footer {
 
 main {
     max-width: 70ch;
-    padding: 1em 1em 1em 3em;
+    padding: 1em min(1em, 5%) 1em min(3em, 7.5%);
     margin: auto;
     line-height: 1.75;
     font-size: 1.25em;
