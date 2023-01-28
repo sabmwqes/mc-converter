@@ -1,5 +1,6 @@
 function customizedRandom(inputJson, patternString){
     const numOfKeys = inputJson["meta"]["mode_ext"]["column"]; // 入力譜面のキー数
+    if (numOfKeys == null) throw new Error("Cannot read the number of keys");
     var pattern = Array(numOfKeys).fill().map(e => []); // 配列の要素を[]で初期化
     for (var i=0 ; i<patternString.length ; i++){
         try {
@@ -33,6 +34,7 @@ function keyToSlide(inputJson){
         return (x % y) ? gcd(y, x % y) : y;
     }
     const numOfKeys = inputJson["meta"]["mode_ext"]["column"]; // 入力譜面のキー数
+    if (numOfKeys == null) throw new Error("Cannot read the number of keys");
     const width = Math.round(255 / numOfKeys);
     const offsetX = Math.round(255 / (numOfKeys * 2));
     const notes = inputJson["note"]; // 参照渡し
@@ -77,6 +79,20 @@ function keyToSlide(inputJson){
     return outputJson;
 }
 
+function removeSOFLAN(inputJson){
+    var outputJson = Object.assign({}, inputJson); // オブジェクトの値渡し
+    outputJson["effect"] = [] //effect初期化
+    const time = inputJson["time"]; // 参照渡し
+    const baseBPM = time[0]["bpm"] //基礎BPM
+    for (i=1 ; i<time.length ; i++){
+        if (time[i]["bpm"] == 0) throw new Error("Contains 0 BPM.");
+        const scrollEffect = {"beat": time[i]["beat"], "scroll": baseBPM / time[i]["bpm"]};
+        outputJson["effect"].push(scrollEffect);
+    }
+    outputJson["meta"]["version"] = "[CONST]" + inputJson["meta"]["version"]; //差分名更新
+    return outputJson;
+}
+
 function convert(){
     $("#alert").text("");
     
@@ -96,7 +112,7 @@ function convert(){
         } else if (option == "keyToSlide"){
             outputJson = keyToSlide(inputJson);
         } else if (option == "removeSOFLAN"){
-            
+            outputJson = removeSOFLAN(inputJson);
         } else if (option == "shift"){
             
         } else if (option == "customizedRandom"){
@@ -105,7 +121,7 @@ function convert(){
             $("#alert").text("Something unexpected happened with option settings.");
         }
     } catch (e){
-        $("#alert").text("This is not a beatmap text.");
+        $("#alert").text(e);
         return;
     }
     $("#textOutput").val(JSON.stringify(outputJson));
