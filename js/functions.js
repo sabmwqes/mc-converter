@@ -93,6 +93,77 @@ function removeSOFLAN(inputJson){
     return outputJson;
 }
 
+function SRAN(inputJson){
+    const randint = (n) => {return Math.floor(Math.random() * n)} // 0 ~ n-1
+
+    const rhythm_isEqual = (a, b) => { // a == b か
+        if ((!Array.isArray(a)) || (!Array.isArray(b))) return false;
+        if (a.length !== 3 || b.length !== 3) return false;
+        return ( ( a[0]*a[2] + a[1] )*b[2] == ( b[0]*b[2] + b[1] )*a[2] );
+    }
+
+    const rhythm_isAOver = (a, b) => { // a < b か
+        if ((!Array.isArray(a)) || (!Array.isArray(b))) return false;
+        if (a.length !== 3 || b.length !== 3) return false;
+        return ( ( a[0]*a[2] + a[1] )*b[2] < ( b[0]*b[2] + b[1] )*a[2] );
+    }
+
+    const shuffle = ([...array]) => {
+        for (let i = array.length - 1; i >= 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    const numOfKeys = inputJson["meta"]["mode_ext"]["column"]; // 入力譜面のキー数
+    if (numOfKeys == null) throw new Error("Cannot read the number of keys");
+
+    var outputJson = Object.assign({}, inputJson); // オブジェクトの値渡し
+    const notes = outputJson["note"]; // 参照渡し
+
+    var previousBeat = [-1, -1, -1]
+    var keySelection = []
+    var isHolded = Array(numOfKeys).fill().map(e => false); // 配列の要素をfalseで初期化
+    var numOfChords = 0; //同時押し数-1
+
+    for (var i=0 ; i<notes.length ; i++ ) {
+        if ("column" in notes[i]) { // 音源指定オブジェクトにはcolumnがない
+            beat = notes[i]["beat"].slice();
+            // console.log(beat)
+            if (!rhythm_isEqual(previousBeat, beat)) { // 時刻が更新されたら
+                numOfChords = 0;
+                for (j=0 ; j<numOfKeys ; j++){
+                    if (rhythm_isAOver(isHolded[j], beat)) {
+                        isHolded[j] = false; //ホールドが終わっていたら制限解除
+                        // console.log("Unholded: " + j)
+                    }
+                }
+                keySelection = []
+                for (j=0 ; j<numOfKeys ; j++) keySelection.push(j);
+                keySelection = shuffle(keySelection); // 0からkey数-1の重複無し乱数列を更新
+                // console.log(keySelection);
+            }else {
+                numOfChords = ( numOfChords + 1 ) % numOfKeys;
+                // console.log("chord = " + numOfChords);
+            }
+            while (isHolded[keySelection[numOfChords]]) {
+                numOfChords = ( numOfChords + 1 ) % numOfKeys; //ホールド中なら別のkeyに
+                // console.log("chord = " + numOfChords);
+            }
+            notes[i]["column"] = keySelection[numOfChords];
+            console.log("column: " + keySelection[numOfChords]);
+            if ("endbeat" in notes[i]){ // ロングノーツの場合
+                isHolded[notes[i]["column"]] = notes[i]["endbeat"].slice(); //値渡し
+                // console.log("Holded: " + isHolded)
+            }
+            previousBeat = beat.slice();
+        }
+    }
+    outputJson["meta"]["version"] = "[S-RAN]" + inputJson["meta"]["version"]; //差分名更新
+    return outputJson;
+}
+
 function convert(){
     $("#alert").text("");
     
@@ -108,13 +179,13 @@ function convert(){
     }
     try {
         if (option == "4kto6k"){
-            outputJson = customizedRandom(inputJson, "001233");
+            outputJson = customizedRandom(inputJson, "001233"); // unused
         } else if (option == "keyToSlide"){
             outputJson = keyToSlide(inputJson);
         } else if (option == "removeSOFLAN"){
             outputJson = removeSOFLAN(inputJson);
-        } else if (option == "shift"){
-            
+        } else if (option == "S-RAN"){
+            outputJson = SRAN(inputJson);
         } else if (option == "customizedRandom"){
             outputJson = customizedRandom(inputJson, $("#customPattern").val());
         } else {

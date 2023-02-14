@@ -1,13 +1,11 @@
 # mc-converter
 https://sabmwqes.github.io/mc-converter/
->**Warning**
->機能追加中です！現在は「customizedRandom」と「keyToSlide」,「removeSOFLAN」のみ実装されています（v1.2現在）
 ## Overview / 概要
 
 This is a chart/beatmap converter for .mc file.
 
 mcファイルをいろいろ変換できる、webブラウザ上で動くツールです。
-4keyを6keyに変換したり、Keyモード譜面をSlideモード譜面に変換したり，速度変化を除去したりできます。
+速度変化を除去したり、Keyモード譜面をSlideモード譜面に変換したり、S乱をかけたりできます。
 
 ## Usage / 使い方
 ### ※PCやandroid等はゲーム内の譜面フォルダを直接開いて3~7を行うのが簡単です
@@ -19,11 +17,17 @@ mcファイルをいろいろ変換できる、webブラウザ上で動くツー
 6. 2.にてmczファイルを展開してできたフォルダに、新しくテキストファイルを作ります。ファイル名は特に無ければ「推奨ファイル名：」のところに表示されているものでいいです **（拡張子は絶対「.mc」にしてください）**。
 7. 作ったテキストファイルに、Outputに表示されているテキストをコピー＆ペーストして保存します。Copy textボタンからコピーできます。
 8. フォルダを圧縮して、名前を元の「(曲名).mcz」に変更します。これをアプリにインポートすれば完了です。
-## Feature(expected) / 機能（予定）
-- customizedRandom
-- keyToSlide
+## Feature / 機能
 - removeSOFLAN
-- shift
+  - BPMの変化などによる譜面の速度変化を無くします
+- keyToSlide
+  - keyモード譜面を内容そのままslideモードのフォーマットに変換します
+- customizedRandom
+  - keyモード譜面のレーンを任意に再配置します
+  - １対多の対応付けが可能です
+- S-RAN
+  - ノートごとのランダムを適用します
+  - 発生する縦連の間隔制限はありません
 
 > ### About customized random / カスタムランダムについて
 > 
