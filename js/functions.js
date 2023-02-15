@@ -41,7 +41,7 @@ function keyToSlide(inputJson){
     var outputJson = Object.assign({}, inputJson); // オブジェクトの値渡し
     outputJson["note"] = []; // 譜面クリア
 
-    for (var i=0 ; i<notes.length ; i++) {
+    for (let i=0 ; i<notes.length ; i++) {
         if ("column" in notes[i]) { // 音源指定オブジェクトにはcolumnがない
         //console.log("Coverting: " + String(i));
             var note = {};
@@ -84,7 +84,7 @@ function removeSOFLAN(inputJson){
     outputJson["effect"] = [] //effect初期化
     const time = inputJson["time"]; // 参照渡し
     const baseBPM = time[0]["bpm"] //基礎BPM
-    for (i=1 ; i<time.length ; i++){
+    for (let i=1 ; i<time.length ; i++){
         if (time[i]["bpm"] == 0) throw new Error("Contains 0 BPM.");
         const scrollEffect = {"beat": time[i]["beat"], "scroll": baseBPM / time[i]["bpm"]};
         outputJson["effect"].push(scrollEffect);
@@ -127,32 +127,32 @@ function SRAN(inputJson){
     var isHolded = Array(numOfKeys).fill().map(e => false); // 配列の要素をfalseで初期化
     var numOfChords = 0; //同時押し数-1
 
-    for (var i=0 ; i<notes.length ; i++ ) {
+    for (let i=0 ; i<notes.length ; i++ ) {
         if ("column" in notes[i]) { // 音源指定オブジェクトにはcolumnがない
             beat = notes[i]["beat"].slice();
             // console.log(beat)
             if (!rhythm_isEqual(previousBeat, beat)) { // 時刻が更新されたら
                 numOfChords = 0;
-                for (j=0 ; j<numOfKeys ; j++){
+                for (let j=0 ; j<numOfKeys ; j++){
                     if (rhythm_isAOver(isHolded[j], beat)) {
                         isHolded[j] = false; //ホールドが終わっていたら制限解除
                         // console.log("Unholded: " + j)
                     }
                 }
                 keySelection = []
-                for (j=0 ; j<numOfKeys ; j++) keySelection.push(j);
+                for (let j=0 ; j<numOfKeys ; j++) keySelection.push(j);
                 keySelection = shuffle(keySelection); // 0からkey数-1の重複無し乱数列を更新
                 // console.log(keySelection);
-            }else {
+            } else {
                 numOfChords = ( numOfChords + 1 ) % numOfKeys;
                 // console.log("chord = " + numOfChords);
             }
-            while (isHolded[keySelection[numOfChords]]) {
+            for (let j=0 ; j<numOfKeys && isHolded[keySelection[numOfChords]] ; j++) {
                 numOfChords = ( numOfChords + 1 ) % numOfKeys; //ホールド中なら別のkeyに
                 // console.log("chord = " + numOfChords);
             }
             notes[i]["column"] = keySelection[numOfChords];
-            console.log("column: " + keySelection[numOfChords]);
+            // console.log("column: " + keySelection[numOfChords]);
             if ("endbeat" in notes[i]){ // ロングノーツの場合
                 isHolded[notes[i]["column"]] = notes[i]["endbeat"].slice(); //値渡し
                 // console.log("Holded: " + isHolded)
@@ -196,7 +196,7 @@ function convert(){
         return;
     }
     $("#textOutput").val(JSON.stringify(outputJson));
-    $("#filename").text("推奨ファイル名: " + Math.floor(Date.now() / 1000) + ".mc");
+    // $("#filename").text("推奨ファイル名: " + Math.floor(Date.now() / 1000) + ".mc");
 }
 
 function toggleInfo(){
@@ -239,4 +239,22 @@ function copytext(){
     $(".copyMessage").text("Copied!");
     $(".copyMessage").fadeIn(1);
     $(".copyMessage").fadeOut(1000);
+}
+
+function downloadFile(){
+    const fileText = $("#textOutput").val();
+    if (!fileText){
+        $(".copyMessage").text("No text!");
+        $(".copyMessage").fadeIn(1);
+        $(".copyMessage").fadeOut(1000);
+        return;
+    }
+    const fileName = Math.floor(Date.now() / 1000) + ".mc";
+    var blob = new Blob([ fileText ], { "type" : "text/plain" });
+    const aTag = document.createElement('a');
+    aTag.href = URL.createObjectURL(blob);
+    aTag.target = '_blank';
+    aTag.download = fileName;
+    aTag.click();
+    URL.revokeObjectURL(aTag.href);
 }

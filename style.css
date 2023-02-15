@@ -82,12 +82,11 @@ header h1, h6{
     color: #ff4040;
 }
 
-.customizedRandom {
+/* .customizedRandom {
     display: -webkit-flex;
     display: flex;
-    border-radius: 3px;
-    border-color: red;
-}
+    align-items: center;
+} */
 
 /*
 .input{

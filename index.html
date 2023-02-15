@@ -68,7 +68,6 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
             <div class="customizedRandom">
                 <input type="radio" name="op1" value="customizedRandom">customRandom
                 <input type="text" id="customPattern" placeholder="例: 3210" value="001233" style="margin: 0px 5px">
-                <span class="patternAlert"></span>
             </div>
             <div>
                 <input type="radio" name="op1" value="S-RAN">S-RAN
@@ -76,27 +75,29 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
         </div>
         <div class="input">
             <h3>Input</h3>
-            <textarea id="textInput" placeholder=".mcファイルのテキストをコピー＆ペーストしてください" rows="5" spellcheck="false"></textarea>
+            <textarea id="textInput" placeholder=".mcファイルのテキストをコピー＆ペーストしてください" rows="7" spellcheck="false"></textarea>
             <div class="info", id="info", style="font-size: 0.75em;  margin: 10px">
                 <div id="title"></div>
                 <div id="version"></div>
                 <div id="notes"></div>
             </div>
-            <div>
-                <button class="btn" onclick="convert()" style="margin-top: 10px;">Convert!</button>
-                <button class="btn" id="infoBtn" onclick="toggleInfo()" style="margin-top: 10px;">Info</button>
-                <button class="btn" onclick="clearInput()" style="margin-top: 10px;">Clear</button>
+            <div style="margin-top: 15px;">
+                <button class="btn" onclick="convert()"">Convert!</button>
+                <button class="btn" id="infoBtn" onclick="toggleInfo()">Info</button>
+                <button class="btn" onclick="clearInput()">Clear</button>
                 <span class="alert" id="alert"></span>
             </div>
         </div>
         <div class="output">
             <h3>Output</h3>
-            <textarea id="textOutput" placeholder="出力結果がここに表示されます" rows="5" readonly spellcheck="false"></textarea>
-            <div>
-                <button class="btn" onclick="copytext()" style="margin-top: 10px;">Copy text</button>
+            <textarea id="textOutput" placeholder="出力結果がここに表示されます" rows="7" readonly spellcheck="false"></textarea>
+            <div style="margin-top: 15px;">
+                <button class="btn" onclick="downloadFile()">Download mc file</button>
+                <button class="btn" onclick="copytext()">Copy text</button>
                 <span class="copyMessage"></span>
             </div>
-            <div class="filename" id="filename" style="font-size: 0.85em; margin: 10px 5px;"></div>
+            <div class="filename" id="filename" style="font-size: 0.85em; margin: 10px 5px;">
+            </div>
         </div>
     </main>
 </body>
